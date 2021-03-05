@@ -5,6 +5,8 @@ patch-server:
 	cp -r ./server/* /home/valheim/server/
 
 release:
-	tag=$(shell git tag --points-at HEAD)
-	echo $(tag)
-	
+	@read -p "Enter Version Tag: " tag; \
+	(cd client && zip -r ../dist/client-$$tag.zip ./**) \
+	(cd server && zip -r ../dist/server-$$tag.zip ./**) \
+	gh release create $$tag ./dist/*-$$tag.zip
+
